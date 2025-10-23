@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>
+    <%= product.title %> — Admin
+  </title>
+  <style>
+    body {
+      font-family: system-ui, Arial, sans-serif;
+      margin: 24px
+    }
+
+    .col {
+      display: inline-block;
+      vertical-align: top;
+      width: 45%;
+      margin-right: 4%
+    }
+
+    .card {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 8px 0
+    }
+
+    .btn {
+      background: #1f6feb;
+      color: #fff;
+      border: 0;
+      padding: 8px 12px;
+      border-radius: 6px
+    }
+
+    ul {
+      padding-left: 18px
+    }
+  </style>
+</head>
+
+<body>
+  <p><a href="/admin">← Back</a></p>
+  <h1>
+    <%= product.title %>
+  </h1>
+
+  <div class="card">
+    <div><strong>Price:</strong>
+      <%= product.price %>
+    </div>
+    <div><strong>Description:</strong>
+      <%= product.description || '—' %>
+    </div>
+  </div>
+
+  <form method="POST" action="/admin/<%= product.id %>">
+    <div class="col">
+      <h2>Similar (mark to remove)</h2>
+      <% if (!related || !related.length) { %>
+        <p>— no items —</p>
+        <% } else { %>
+          <ul>
+            <% related.forEach(r=> { %>
+              <li class="card">
+                <div><strong>
+                    <%= r.title %>
+                  </strong> — <%= r.price %>
+                </div>
+                <label>
+                  <input type="checkbox" name="removeRelated" value="<%= r.id %>" />
+                  mark to remove
+                </label>
+              </li>
+              <% }) %>
+          </ul>
+          <% } %>
+    </div>
+
+    <div class="col">
+      <h2>Other products (add to similar)</h2>
+      <% if (!other || !other.length) { %>
+        <p>— no items —</p>
+        <% } else { %>
+          <ul>
+            <% other.forEach(o=> { %>
+              <li class="card">
+                <div><strong>
+                    <%= o.title %>
+                  </strong> — <%= o.price %>
+                </div>
+                <label>
+                  <input type="checkbox" name="addRelated" value="<%= o.id %>" />
+                  add as similar
+                </label>
+              </li>
+              <% }) %>
+          </ul>
+          <% } %>
+    </div>
+
+    <div style="clear:both;margin-top:16px;">
+      <button class="btn" type="submit">Save changes</button>
+    </div>
+  </form>
+</body>
+
+</html>

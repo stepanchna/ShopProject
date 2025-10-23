@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop.Client</title>
+</head>
+
+<body>
+    <h1>Shop.Client</h1>
+    <p>В базе данных находится <span id="product-count">0</span> товаров общей стоимостью <span
+            id="total-price">0</span></p>
+
+    <button onclick="window.location.href='/products-list'">Перейти к списку товаров</button>
+    <button onclick="window.open('/admin', '_blank')">Перейти в систему администрирования</button>
+
+    <script>
+        // Получаем количество товаров и их стоимость через API
+        fetch('/api/products')
+            .then(response => response.json())
+            .then(products => {
+                const count = products.length;
+                const totalPrice = products.reduce((sum, product) => sum + product.price, 0);
+
+                document.getElementById('product-count').textContent = count;
+                document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+            });
+    </script>
+</body>
+
+</html>
