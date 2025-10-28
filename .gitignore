@@ -1,0 +1,9 @@
+node_modules/
+dist/
+shop.client/dist/
+shop.db
+.env
+.env.local
+npm-debug.log*
+yarn.lock
+pnpm-lock.yaml
